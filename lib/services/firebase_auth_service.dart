@@ -1,6 +1,7 @@
 import 'package:NutriMate/main.dart';
 import 'package:NutriMate/models/entities.dart';
 import 'package:NutriMate/providers/user_provider.dart';
+import 'package:NutriMate/screens/nueva_screen.dart';
 import 'package:NutriMate/theme/app_theme.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -113,18 +114,6 @@ class AuthService {
                           );
                         })
                       }
-                    else
-                      {
-                        Provider.of<UserProvider>(context, listen: false)
-                            .loadUser()
-                            .then((_) {
-                          Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(
-                                builder: (context) => TabScreen()),
-                            (route) => false,
-                          );
-                        })
-                      }
                   }
               });
     } on FirebaseAuthException catch (e) {
@@ -177,17 +166,6 @@ class AuthService {
             'photoURL': user.photoURL,
           });
         }
-
-        if (context.mounted) {
-          await Provider.of<UserProvider>(context, listen: false)
-              .loadUser()
-              .then((_) {
-            Navigator.of(context).pushAndRemoveUntil(
-              MaterialPageRoute(builder: (context) => TabScreen()),
-              (route) => false,
-            );
-          });
-        }
       }
     } catch (e) {
       if (context.mounted) {
@@ -226,37 +204,7 @@ class AuthService {
     FocusScope.of(context).unfocus();
     try {
       //Envia un correo de reestablecimiento de contraseña al email introducido
-      await FirebaseAuth.instance.sendPasswordResetEmail(email: email);
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        title: "Email enviado correctamente a \n $email",
-        text: "Revisa tu bandeja de entrada para restablecer tu contraseña.",
-        confirmBtnText: "OK",
-        confirmBtnColor: AppTheme.primary,
-        onConfirmBtnTap: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-            (route) => false,
-          );
-        },
-      );
-    } catch (e) {
-      QuickAlert.show(
-        context: context,
-        type: QuickAlertType.error,
-        title: "Error al enviar el correo",
-        text: "Ocurrió un error. Inténtalo nuevamente.",
-        confirmBtnText: "OK",
-        confirmBtnColor: AppTheme.primary,
-        onConfirmBtnTap: () {
-          Navigator.of(context).pushAndRemoveUntil(
-            MaterialPageRoute(builder: (context) => LoginScreen()),
-            (route) => false,
-          );
-        },
-      );
-    }
+    } catch (e) {}
   }
 
   void iniciarSesion(
@@ -268,27 +216,36 @@ class AuthService {
           await usuarios.where('email', isEqualTo: email).limit(1).get();
 
       if (querySnapshot.docs.isNotEmpty) {
-        var usuario = querySnapshot.docs.first;
-        String userPassword = usuario['password'];
+        var usuarioDoc = querySnapshot.docs.first;
+        String userPassword = usuarioDoc['password'];
 
         if (userPassword == password) {
+          Usuario usuario =
+              Usuario.fromMap(usuarioDoc.data() as Map<String, dynamic>);
+
           QuickAlert.show(
             context: context,
             type: QuickAlertType.success,
-            title: "Inicio de sesion correcto \n bienvenido $email",
+            title: "Inicio de sesión correcto \n Bienvenido $email",
             confirmBtnText: "OK",
             confirmBtnColor: AppTheme.primary,
             onConfirmBtnTap: () {
-              AuthService auth = AuthService();
-              //auth.signOut(context);
-              Navigator.of(context).pop();
+              Provider.of<UserProvider>(context, listen: false)
+                  .loadUser()
+                  .then((_) {
+                Navigator.of(context).pushAndRemoveUntil(
+                  MaterialPageRoute(
+                      builder: (context) => NuevaScreen(usuario: usuario)),
+                  (route) => false,
+                );
+              });
             },
           );
         } else {
           QuickAlert.show(
             context: context,
             type: QuickAlertType.error,
-            title: "Error contraseña incorrecta",
+            title: "Error: contraseña incorrecta",
             confirmBtnText: "OK",
             confirmBtnColor: AppTheme.primary,
             onConfirmBtnTap: () {
@@ -312,7 +269,7 @@ class AuthService {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
-        title: "Error al iniciar sesion",
+        title: "Error al iniciar sesión",
         confirmBtnText: "OK",
         confirmBtnColor: AppTheme.primary,
         onConfirmBtnTap: () {

@@ -23,7 +23,7 @@ class SessionManager {
       // Si el usuario está autenticado, lo lleva a la pantalla principal TabScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => NuevaScreen()),
+        MaterialPageRoute(builder: (context) => LoadingScreen()),
       );
     } else {
       // Si el usuario no está autenticado, lo envía a la pantalla de inicio de sesión LoginScreen

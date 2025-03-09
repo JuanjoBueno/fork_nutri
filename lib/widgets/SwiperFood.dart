@@ -36,7 +36,7 @@ class _SwiperFoodState extends State<SwiperFood> {
   @override
   Widget build(BuildContext context) {
     final List<Recipe> recetas =
-        widget.cliente.menu.menusDiarios[widget.day ?? 0].recetas;
+        widget.cliente.menu?.menusDiarios[widget.day ?? 0].recetas ?? [];
     return Column(
       children: [
         Padding(
@@ -103,16 +103,7 @@ class _SwiperTimeFoodLabel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Text(
-      widget.cliente.menu.menusDiarios[currentIndex].recetas[currentIndex].type
-          .name
-          .toUpperCase(),
-      style: const TextStyle(
-        fontSize: 18,
-        fontWeight: FontWeight.bold,
-        color: Color(0xFF00B894),
-      ),
-    );
+    return Text("");
   }
 }
 
@@ -144,14 +135,7 @@ class _SwiperImage extends StatelessWidget {
         children: [
           Positioned.fill(
             child: GestureDetector(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RecetaDiariaScreen(receta: receta),
-                  ),
-                );
-              },
+              onTap: () {},
               child: FadeInImage(
                 placeholder: const AssetImage('assets/images/loading.gif'),
                 image: NetworkImage(receta.imageUrl),

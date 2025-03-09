@@ -1,6 +1,3 @@
-import 'package:NutriMate/screens/crear_menu_diario_screen.dart';
-import 'package:NutriMate/screens/crear_menu_semanal_screen.dart';
-import 'package:NutriMate/screens/crear_receta_screen.dart';
 import 'package:flutter/material.dart';
 import '../models/entities.dart';
 import '../services/services.dart';
@@ -51,15 +48,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
             final inicialNombre = cliente.name[0];
             final inicialApellidos = cliente.lastName[0];
             return InkWell(
-              onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) =>
-                        RecetasSemanalesScreen(cliente: cliente),
-                  ),
-                );
-              },
+              onTap: () {},
               child: ListTile(
                 leading: CircleAvatar(
                   backgroundColor: Colors.green,
@@ -77,14 +66,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
         children: [
           FloatingActionButton(
             backgroundColor: Color.fromRGBO(0, 168, 136, 1),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CrearMenuSemanalScreen(),
-                ),
-              );
-            },
+            onPressed: () {},
             child: Icon(
               Icons.add,
               color: Colors.white,
@@ -93,14 +75,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
           SizedBox(height: 10),
           FloatingActionButton(
             backgroundColor: Color.fromRGBO(0, 184, 148, 1),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CrearMenuDiarioScreen(),
-                ),
-              );
-            },
+            onPressed: () {},
             child: Icon(
               Icons.add,
               color: Colors.white,
@@ -109,14 +84,7 @@ class _ClientesScreenState extends State<ClientesScreen> {
           SizedBox(height: 10),
           FloatingActionButton(
             backgroundColor: Color.fromRGBO(0, 200, 160, 1),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => CrearRecetaScreen(),
-                ),
-              );
-            },
+            onPressed: () {},
             child: Icon(
               Icons.add,
               color: Colors.white,

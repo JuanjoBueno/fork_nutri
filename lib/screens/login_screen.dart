@@ -82,8 +82,10 @@ class _LoginScreenState extends State<LoginScreen> {
                           child: const Text('Iniciar sesión'),
                           onPressed: () async {
                             if (_loginFormKey.currentState!.validate()) {
-                              _authService.logIn(formValues['email']!.trim(),
-                                  formValues['password']!.trim(), context);
+                              _authService.iniciarSesion(
+                                  formValues['email']!.trim(),
+                                  formValues['password']!.trim(),
+                                  context);
                             }
                           },
                         ),

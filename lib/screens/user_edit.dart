@@ -66,7 +66,6 @@ void showUserEditDialog(
                         name: nameController.text,
                         lastName: lastNameController.text,
                         weight: usuario.weight,
-                        menu: usuario.menu,
                       );
                       onSave(updatedUser);
                       Navigator.pop(context);

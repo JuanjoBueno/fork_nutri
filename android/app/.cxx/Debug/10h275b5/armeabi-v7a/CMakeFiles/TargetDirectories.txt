@@ -1,0 +1,2 @@
+/Volumes/MacExt/fork_nutri/android/app/.cxx/Debug/10h275b5/armeabi-v7a/CMakeFiles/edit_cache.dir
+/Volumes/MacExt/fork_nutri/android/app/.cxx/Debug/10h275b5/armeabi-v7a/CMakeFiles/rebuild_cache.dir

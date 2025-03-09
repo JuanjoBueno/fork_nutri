@@ -28,7 +28,7 @@ class _SwiperFoodState extends State<SwiperFood> {
 
   void updateRecipe(Recipe newRecipe) {
     setState(() {
-      widget.cliente.menu.menusDiarios[currentIndex].recetas[currentIndex] =
+      widget.cliente.menu?.menusDiarios[currentIndex].recetas[currentIndex] =
           newRecipe;
     });
   }

@@ -1,3 +1,4 @@
+import 'package:NutriMate/screens/nueva_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:NutriMate/screens/screens.dart';
@@ -22,7 +23,7 @@ class SessionManager {
       // Si el usuario está autenticado, lo lleva a la pantalla principal TabScreen
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => TabScreen()),
+        MaterialPageRoute(builder: (context) => NuevaScreen()),
       );
     } else {
       // Si el usuario no está autenticado, lo envía a la pantalla de inicio de sesión LoginScreen

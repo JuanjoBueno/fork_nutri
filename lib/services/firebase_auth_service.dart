@@ -280,7 +280,7 @@ class AuthService {
             confirmBtnColor: AppTheme.primary,
             onConfirmBtnTap: () {
               AuthService auth = AuthService();
-              auth.signOut(context);
+              //auth.signOut(context);
               Navigator.of(context).pop();
             },
           );

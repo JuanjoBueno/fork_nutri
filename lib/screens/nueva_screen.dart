@@ -14,7 +14,8 @@ class NuevaScreen extends StatelessWidget {
     // Usamos un StreamBuilder para escuchar las mediciones del usuario
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Perfil de Usuario"),
+        title: const Text("Mediciones de Grasa Corporal",
+            style: TextStyle(color: Colors.white)),
         backgroundColor: Colors.teal,
       ),
       body: Padding(
@@ -72,24 +73,40 @@ class NuevaScreen extends StatelessWidget {
 
                       // Card con la información de la medición
                       return Card(
-                        margin: const EdgeInsets.symmetric(vertical: 8.0),
+                        elevation: 2, // Sombra sutil para un efecto elevado
+                        shape: RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.circular(12), // Bordes redondeados
+                        ),
+                        color: Colors.blueGrey[50], // Color de fondo más suave
+                        margin: const EdgeInsets.symmetric(
+                            vertical: 8.0, horizontal: 12.0),
                         child: ListTile(
-                          title: Text('$grasaCorporal% de grasa corporal'),
-                          subtitle: Text('Fecha: $formattedDate'),
-                          trailing: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              IconButton(
-                                icon: const Icon(Icons.delete),
-                                onPressed: () async {
-                                  // Eliminar medición
-                                  await FirebaseFirestore.instance
-                                      .collection('mediciones')
-                                      .doc(medicion.id)
-                                      .delete();
-                                },
-                              ),
-                            ],
+                          contentPadding: const EdgeInsets.symmetric(
+                              vertical: 8.0, horizontal: 16.0),
+                          leading: CircleAvatar(
+                            backgroundColor: Colors.blueGrey[200],
+                            child:
+                                Icon(Icons.fitness_center, color: Colors.white),
+                          ),
+                          title: Text(
+                            '$grasaCorporal% de grasa corporal',
+                            style: const TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold),
+                          ),
+                          subtitle: Text(
+                            'Fecha: $formattedDate',
+                            style: const TextStyle(
+                                fontSize: 14, color: Colors.black54),
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete, color: Colors.red),
+                            onPressed: () async {
+                              await FirebaseFirestore.instance
+                                  .collection('mediciones')
+                                  .doc(medicion.id)
+                                  .delete();
+                            },
                           ),
                         ),
                       );
@@ -106,16 +123,62 @@ class NuevaScreen extends StatelessWidget {
 
   // Datos del usuario
   Widget _informacionUsuario() {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text("Email: ${usuario.email}", style: const TextStyle(fontSize: 18)),
-        Text("Nombre: ${usuario.name}", style: const TextStyle(fontSize: 18)),
-        Text("Apellidos: ${usuario.lastName}",
-            style: const TextStyle(fontSize: 18)),
-        Text("Peso: ${usuario.weight} kg",
-            style: const TextStyle(fontSize: 18)),
-      ],
+    return Card(
+      elevation: 3, // Sombra sutil
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(12), // Bordes redondeados
+      ),
+      color: Colors.blueGrey[50], // Color de fondo suave
+      margin: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 16.0),
+      child: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                CircleAvatar(
+                  radius: 30,
+                  backgroundColor: Colors.blueGrey[200],
+                  child: Icon(Icons.person, color: Colors.white, size: 30),
+                ),
+                const SizedBox(width: 12),
+                Text(
+                  usuario.name + " " + usuario.lastName,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
+            const Divider(height: 20, thickness: 1, color: Colors.grey),
+            _infoRow(Icons.email, "Email", usuario.email),
+            _infoRow(Icons.fitness_center, "Peso", "${usuario.weight} kg"),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _infoRow(IconData icon, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: Row(
+        children: [
+          Icon(icon, color: Colors.blueGrey),
+          const SizedBox(width: 10),
+          Text(
+            "$label: ",
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+          ),
+          Text(
+            value,
+            style: const TextStyle(fontSize: 16, color: Colors.black54),
+          ),
+        ],
+      ),
     );
   }
 }

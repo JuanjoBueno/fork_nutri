@@ -59,7 +59,7 @@ class NuevaScreen extends StatelessWidget {
                     return const Center(child: Text('No hay mediciones aún.'));
                   }
 
-                  // Listado de mediciones
+                  // Lista de mediciones
                   final mediciones = snapshot.data!.docs;
                   return ListView.builder(
                     itemCount: mediciones.length,
@@ -70,6 +70,7 @@ class NuevaScreen extends StatelessWidget {
                           DateFormat('dd/MM/yyyy').format(fecha);
                       final grasaCorporal = medicion['grasaCorporal'];
 
+                      // Card con la información de la medición
                       return Card(
                         margin: const EdgeInsets.symmetric(vertical: 8.0),
                         child: ListTile(
@@ -103,7 +104,7 @@ class NuevaScreen extends StatelessWidget {
     );
   }
 
-  // Widget que muestra los datos del usuario
+  // Datos del usuario
   Widget _informacionUsuario() {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,

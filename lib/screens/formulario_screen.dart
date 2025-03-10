@@ -16,27 +16,25 @@ class _FormularioMedicionState extends State<FormularioMedicion> {
   final TextEditingController _grasaController = TextEditingController();
   DateTime _fecha = DateTime.now();
 
-  // Función para guardar la medición en Firestore
+  // Guardar la medición en Firestore
   Future<void> _guardarMedicion() async {
     if (_formKey.currentState!.validate()) {
       try {
         await FirebaseFirestore.instance.collection('mediciones').add({
-          'userId': widget.usuario.email, // Asociamos la medición al usuario
+          'userId': widget.usuario.email,
           'grasaCorporal': double.parse(_grasaController.text),
           'fecha': _fecha.toIso8601String(),
         });
 
-        // Volver a la pantalla anterior después de guardar
         Navigator.pop(context);
       } catch (e) {
-        // Mostrar error si ocurre algún problema al guardar
         ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(content: Text('Error al guardar la medición: $e')));
       }
     }
   }
 
-  // Función para mostrar el selector de fecha
+  // Seleccionar fecha con un DatePicker
   Future<void> _seleccionarFecha(BuildContext context) async {
     final DateTime? selectedDate = await showDatePicker(
       context: context,
